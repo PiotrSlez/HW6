@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Piotr Slezak / Section 1
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -10,6 +10,7 @@
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Class PriorityQueue<E,P>
@@ -167,8 +168,15 @@ class PriorityQueue<E, P> {
      */
 
     public boolean contains(E e) {
-
-        // ADD YOUR CODE HERE
+ /*       Node current = tree.get(0);
+        while(current != null){
+            if(current.value() == e){
+                return true;
+            } else {
+                current = tree.get();
+            }
+        }
+*/
         return false;
     }
 

@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Piotr Slezak / Section 1
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -65,10 +65,27 @@ public class ProblemSolutions {
 
   public static int lastBoulder(int[] boulders) {
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+      PriorityQueue<Integer> smashBoulders = new PriorityQueue<>(Collections.reverseOrder()); //Collections.reserveOrder turns the Priority Queue into a Max Heap
+
+      for(int i : boulders){ //adds boulders to Priority Queue
+          smashBoulders.add(i);
+      }
+
+      while(smashBoulders.size() > 1){ //checks if priority queue has more than 1 element
+
+          int x = smashBoulders.poll(); //pulls two biggest boulders off the queue
+          int y = smashBoulders.poll();
+
+          if(x != y){ //if boulders are not the same, return the difference
+              smashBoulders.add(Math.abs(x - y));
+          }
+      }
+
+      if(smashBoulders.peek() != null){ //if the queue isn't empty, return the remaining boulder
+          return smashBoulders.peek();
+      }
+
+      return 0; //else return 0
   }
 
 
@@ -91,10 +108,20 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+       PriorityQueue<String> animals = new PriorityQueue<>();
+
+        for (String s : input) { //moves input into the priority queue
+            animals.add(s);
+        }
+
+        ArrayList<String> unique = new ArrayList<>();
+        while(animals.size() > 1){
+            if(animals.poll().equals(animals.peek()) && !unique.contains(animals.peek())){ //checks if poll and peek are duplicates, and if unique doesn't already contain the checked string.
+                unique.add(animals.poll()); //adds duplicate and pulls it off the list
+            }
+        }
+
+        return unique;
 
     }
 
@@ -116,7 +143,7 @@ public class ProblemSolutions {
      *         - Ordering between pairs:
      *            The ordering of strings of pairs should be sorted in lowest to
      *            highest pairs. E.g., if the following two string pairs within
-     *            the returned ArraryList, "(3, 6)" and "(2, 7), they should be
+     *            the returned ArrayList, "(3, 6)" and "(2, 7), they should be
      *            ordered in the ArrayList returned as "(2, 7)" and "(3, 6 )".
      *
      *         Example output:
@@ -131,9 +158,27 @@ public class ProblemSolutions {
 
     public static ArrayList<String> pair(int[] input, int k) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        PriorityQueue<Integer> pairFinder = new PriorityQueue<>(Collections.reverseOrder()); //turns priority queue into a max heap
+
+        for(int i : input){ //adds all elements of input into the new PriorityQueue
+            pairFinder.add(i);
+        }
+
+        ArrayList<String> pairs = new ArrayList<>(); //creates new ArrayList that will be returned
+
+        while(!pairFinder.isEmpty()) { //makes sure pairFinder has at least one element
+            while (pairFinder.peek() >= k) { //no pairs can exist if the number is k or higher
+                pairFinder.poll();
+            }
+
+            int current = pairFinder.poll(); //always polls; current is unused if pair isn't found
+
+            if(pairFinder.contains(k - current)){ //checks if pairFinder contains the pair
+                pairFinder.remove(k- current); //removes from priority queue if the number exists
+                pairs.add("(" + (k - current) + ", " + current + ")"); //adds the pair to the ArrayList
+            }
+        }
+
+        return pairs;
     }
 }
